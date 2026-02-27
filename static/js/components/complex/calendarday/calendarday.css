@@ -1,0 +1,27 @@
+:host([dim]) .day-header {
+  opacity: 0.4;
+}
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.day-header {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--day-header-text);
+  padding: 6px;
+}
+
+.events {
+    margin-top: 6px;
+}
+
+:host([dim]) {
+    opacity: 0.4;
+}
+
+.card{
+    height: 100%;
+}

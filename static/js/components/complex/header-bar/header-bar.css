@@ -1,0 +1,13 @@
+.header-container {
+  display: flex;
+  justify-content: space-between; /* pushes left and right apart */
+  align-items: center;            /* vertical centering */
+  width: 100%;
+}
+
+.left-group,
+.right-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* spacing between items */
+}

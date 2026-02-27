@@ -1,0 +1,11 @@
+:host {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+  color: var(--text-primary, #fff);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
