@@ -1,5 +1,5 @@
 window.nav = function (view, btn) {
-  const app = document.getElementById("view-container");
+  const app = document.getElementById("view-content-id");
 
   // Clear active state
   document
@@ -12,7 +12,7 @@ window.nav = function (view, btn) {
   app.innerHTML = "";
 
   if (view === "calendar") {
-    app.innerHTML = "<hl-calendar></hl-calendar>";
+    app.innerHTML = "<hl-calendar class='calendar-component'></hl-calendar>";
   }
 
   if (view === "rewards") {

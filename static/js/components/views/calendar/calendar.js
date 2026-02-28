@@ -28,6 +28,13 @@ class CalendarView extends HTMLElement {
     this.grid = this.shadowRoot.querySelector(".calendar-grid");
 
     this.currentView = "month";
+
+    document.addEventListener("date-change", (e) => {
+      this.currentDate = e.detail.date;
+      this.viewMode = e.detail.view;
+      this.Render();
+    });
+
     this.WireControls();
     this.Render();
   }

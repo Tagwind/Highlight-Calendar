@@ -22,14 +22,91 @@ class HeaderBar extends HTMLElement {
         </div>
 
         <div class="right-group">
-            <div class="calendar-avatar">This will be avatars</div>
-            <div class="calendar-controls">Left namej right View</div>
+          <button class="nav-left">◀</button>
+          <div class="current-label"></div>
+          <button class="nav-right">▶</button>
+          <div class="calendar-avatar"></div>
         </div>
     </div>
     `;
 
+    this.currentDate = new Date();
+    this.viewMode = "month"; // month | week | day
+
+    this.shadowRoot.querySelector(".nav-left").addEventListener("click", () => {
+      this.navigate(-1);
+      this.updateLabel();
+    });
+
+    this.shadowRoot
+      .querySelector(".nav-right")
+      .addEventListener("click", () => {
+        this.navigate(1);
+        this.updateLabel();
+      });
+
     // Cache reference
     this.header = this.shadowRoot.querySelector(".header-container");
+
+    this.updateLabel();
+  }
+
+  navigate(direction) {
+    const newDate = new Date(this.currentDate);
+
+    if (this.viewMode === "month") {
+      newDate.setMonth(newDate.getMonth() + direction);
+    }
+
+    if (this.viewMode === "week") {
+      newDate.setDate(newDate.getDate() + 7 * direction);
+    }
+
+    if (this.viewMode === "day") {
+      newDate.setDate(newDate.getDate() + direction);
+    }
+
+    this.currentDate = newDate;
+
+    this.dispatchEvent(
+      new CustomEvent("date-change", {
+        detail: {
+          date: this.currentDate,
+          view: this.viewMode,
+        },
+        bubbles: true,
+      }),
+    );
+  }
+
+  updateLabel() {
+    const label = this.shadowRoot.querySelector(".current-label");
+
+    if (this.viewMode === "month") {
+      label.textContent = this.currentDate.toLocaleString("default", {
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    if (this.viewMode === "week") {
+      const start = new Date(this.currentDate);
+      start.setDate(start.getDate() - start.getDay());
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+
+      label.textContent =
+        start.toLocaleDateString() + " - " + end.toLocaleDateString();
+    }
+
+    if (this.viewMode === "day") {
+      label.textContent = this.currentDate.toLocaleDateString(undefined, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    }
   }
 }
 

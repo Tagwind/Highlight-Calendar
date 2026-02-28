@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,22 +11,23 @@
 
     <style>
         *,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
 
-body {
-    display: flex;
-    font-family: sans-serif;
-    background: var(--bg-app);
-    color: var(--text-primary);
-}
+        body {
+            display: flex;
+            font-family: sans-serif;
+            background: var(--bg-app);
+            color: var(--text-primary);
+        }
 
         .sidebar {
             width: 250px;
@@ -55,22 +57,36 @@ body {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* important */
+            overflow: hidden;
+            /* important */
             padding: 30px;
         }
-        #view-container {
-            flex: 1;
-            min-height: 0;  /* VERY IMPORTANT */
+
+        .view-container {
             display: flex;
+            flex: 1;
+            min-height: 0;
         }
 
+        .view-content {
+            display: flex;
+            flex: 1;
+        }
+
+        .calendar-component {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
     </style>
 
     <!-- Load components ONCE -->
     <script type="module" src="{{ url_for('static', filename='js/components/views/calendar/calendar.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/components/basic/card/card.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/components/complex/calendarday/calendarday.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/components/complex/header-bar/header-bar.js') }}"></script>
+    <script type="module"
+        src="{{ url_for('static', filename='js/components/complex/calendarday/calendarday.js') }}"></script>
+    <script type="module"
+        src="{{ url_for('static', filename='js/components/complex/header-bar/header-bar.js') }}"></script>
 
     <!-- App controller -->
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
@@ -90,9 +106,12 @@ body {
         </div>
 
         <!-- This area is dynamic and changing -->
-        <div id="view-container">
-            <hl-calendar></hl-calendar>
+        <div class="view-container">
+            <div id="view-content-id" class="view-content">
+                <hl-calendar class="calendar-component"></hl-calendar>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
