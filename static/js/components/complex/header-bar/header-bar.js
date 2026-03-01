@@ -22,6 +22,11 @@ class HeaderBar extends HTMLElement {
         </div>
 
         <div class="right-group">
+          <hl-drop-down>
+            <hl-option value="month">Month</hl-option>
+            <hl-option value="week">Week</hl-option>
+            <hl-option value="day">Day</hl-option>
+          </hl-drop-down>
           <button class="nav-left">◀</button>
           <div class="current-label"></div>
           <button class="nav-right">▶</button>

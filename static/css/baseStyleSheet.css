@@ -9,3 +9,7 @@
 *::after {
   box-sizing: inherit;
 }
+
+hl-option {
+  display: none;
+}
