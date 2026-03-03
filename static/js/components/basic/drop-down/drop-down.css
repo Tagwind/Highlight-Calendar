@@ -46,6 +46,12 @@
   touch-action: manipulation;
 }
 
+.hl-drop-down__trigger:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--color-border, #d1d5db);
+}
+
 .hl-drop-down__trigger:hover,
 .hl-drop-down--open .hl-drop-down__trigger {
   border-color: var(--color-primary, #6366f1);

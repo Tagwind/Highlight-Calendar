@@ -22,7 +22,7 @@ class HeaderBar extends HTMLElement {
         </div>
 
         <div class="right-group">
-          <hl-drop-down>
+          <hl-drop-down class="calendarTypeDropDown">
             <hl-option value="month">Month</hl-option>
             <hl-option value="week">Week</hl-option>
             <hl-option value="day">Day</hl-option>
@@ -52,6 +52,18 @@ class HeaderBar extends HTMLElement {
 
     // Cache reference
     this.header = this.shadowRoot.querySelector(".header-container");
+    this.calendarTypeDropDown = this.shadowRoot.querySelector(
+      ".calendarTypeDropDown",
+    );
+
+    this.calendarTypeDropDown.addEventListener("change", (e) => {
+      this.dispatchEvent(
+        new CustomEvent("calendarTypeChanged", {
+          detail: e.detail,
+          bubbles: true,
+        }),
+      );
+    });
 
     this.updateLabel();
   }

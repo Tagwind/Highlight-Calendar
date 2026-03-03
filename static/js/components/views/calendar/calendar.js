@@ -14,11 +14,6 @@ class CalendarView extends HTMLElement {
 
     // Create static layout
     this.shadowRoot.innerHTML += `
-      <div class="calendar-controls">
-        <button data-view="month">Month</button>
-        <button data-view="week">Week</button>
-        <button data-view="day">Day</button>
-      </div>
       <div class="calendar-view">
         <div class="calendar-grid"></div>
       </div>
@@ -35,17 +30,12 @@ class CalendarView extends HTMLElement {
       this.Render();
     });
 
-    this.WireControls();
-    this.Render();
-  }
-
-  WireControls() {
-    this.shadowRoot.querySelectorAll("[data-view]").forEach((btn) => {
-      btn.addEventListener("pointerup", () => {
-        this.currentView = btn.dataset.view;
-        this.Render();
-      });
+    document.addEventListener("calendarTypeChanged", (e) => {
+      this.currentView = e.detail.value;
+      this.Render();
     });
+
+    this.Render();
   }
 
   Render() {

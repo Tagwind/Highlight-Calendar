@@ -30,6 +30,22 @@ class HlSelect extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });
 
+    const style = document.createElement("style");
+    style.textContent = `
+        .hl-drop-down__dropdown { opacity: 0; pointer-events: none; }
+        .hl-drop-down__trigger { 
+            outline: none; 
+            box-shadow: none;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            background: #fff;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        `;
+    this.shadowRoot.appendChild(style);
+
     // Load stylesheets
     const baseLink = document.createElement("link");
     baseLink.rel = "stylesheet";
@@ -50,7 +66,7 @@ class HlSelect extends HTMLElement {
           <span class="hl-drop-down__arrow">▾</span>
         </div>
 
-        <div class="hl-drop-down__dropdown" role="listbox" aria-multiselectable="false">
+        <div class="hl-drop-down__dropdown hl-drop-down__dropdown--hidden" role="listbox" aria-multiselectable="false">
           <ul class="hl-drop-down__list"></ul>
         </div>
       </div>
@@ -268,14 +284,9 @@ class HlSelect extends HTMLElement {
     this._root.classList.add("hl-drop-down--open");
     this._trigger.setAttribute("aria-expanded", "true");
 
-    console.log("_open called");
-    console.log("_root:", this._root);
-    console.log("_dropdown:", this._dropdown);
-
-    console.log("classes on root:", this._root.className);
+    this._dropdown.classList.remove("hl-drop-down__dropdown--hidden");
 
     requestAnimationFrame(() => {
-      console.log("rAF fired, _dropdown:", this._dropdown);
       if (!this._dropdown) return;
 
       const triggerRect = this._trigger.getBoundingClientRect();
@@ -287,7 +298,6 @@ class HlSelect extends HTMLElement {
       } else {
         this._root.classList.remove("hl-drop-down--dropup");
       }
-      console.log("classes on root:", this._root.className);
     });
   }
 
@@ -299,7 +309,6 @@ class HlSelect extends HTMLElement {
   }
 
   _toggle() {
-    console.log("_toggle called, isOpen:", this._isOpen);
     this._isOpen ? this._close() : this._open();
   }
 
