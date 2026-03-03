@@ -36,7 +36,6 @@ class HeaderBar extends HTMLElement {
     `;
 
     this.currentDate = new Date();
-    this.viewMode = "month"; // month | week | day
 
     this.shadowRoot.querySelector(".nav-left").addEventListener("click", () => {
       this.navigate(-1);
@@ -56,7 +55,11 @@ class HeaderBar extends HTMLElement {
       ".calendarTypeDropDown",
     );
 
+    this.calendarTypeDropDown.setValue("month");
+    this.viewMode = this.calendarTypeDropDown.getValue(); // month | week | day
     this.calendarTypeDropDown.addEventListener("change", (e) => {
+      this.viewMode = e.detail.value;
+      this.updateLabel();
       this.dispatchEvent(
         new CustomEvent("calendarTypeChanged", {
           detail: e.detail,
@@ -70,6 +73,7 @@ class HeaderBar extends HTMLElement {
 
   navigate(direction) {
     const newDate = new Date(this.currentDate);
+    this.viewMode = this.calendarTypeDropDown.getValue();
 
     if (this.viewMode === "month") {
       newDate.setMonth(newDate.getMonth() + direction);
