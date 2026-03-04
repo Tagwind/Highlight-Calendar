@@ -23,6 +23,7 @@ class CalendarView extends HTMLElement {
     this.grid = this.shadowRoot.querySelector(".calendar-grid");
 
     this.currentView = "month";
+    this.currentDate = new Date();
 
     document.addEventListener("date-change", (e) => {
       this.currentDate = e.detail.date;
@@ -63,41 +64,51 @@ class CalendarView extends HTMLElement {
   }
 
   RenderMonthView() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
+    const date = this.currentDate;
+    const year = date.getFullYear();
+    const month = date.getMonth();
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-
     const startOffset = firstDay.getDay();
     const totalDays = lastDay.getDate();
 
     const totalCells = startOffset + totalDays;
-    const weeks = Math.ceil(totalCells / 7);
+    // Always round up to full weeks, with a minimum trailing row if last week is full
+    const weeks = Math.ceil(totalCells / 7) + (totalCells % 7 === 0 ? 1 : 0);
+    const gridCells = weeks * 7;
 
-    // Dynamically set grid rows
     this.grid.style.gridTemplateRows = `repeat(${weeks}, 1fr)`;
 
     const fragment = document.createDocumentFragment();
 
-    // Leading blanks
-    for (let i = 0; i < startOffset; i++) {
-      fragment.appendChild(this.RenderDayCard(null, true));
+    // Previous month overflow
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    for (let i = startOffset - 1; i >= 0; i--) {
+      const d = new Date(year, month - 1, prevMonthLastDay - i);
+      fragment.appendChild(this.RenderDayCard(d, true));
     }
 
-    // Actual days
+    // Current month
     for (let day = 1; day <= totalDays; day++) {
-      const date = new Date(year, month, day);
-      fragment.appendChild(this.RenderDayCard(date, false));
+      fragment.appendChild(
+        this.RenderDayCard(new Date(year, month, day), false),
+      );
+    }
+
+    // Next month overflow
+    const trailingDays = gridCells - startOffset - totalDays;
+    for (let day = 1; day <= trailingDays; day++) {
+      const d = new Date(year, month + 1, day);
+      fragment.appendChild(this.RenderDayCard(d, true));
     }
 
     return fragment;
   }
 
   RenderWeekView() {
-    const today = new Date();
-    const start = new Date(today);
+    const date = this.currentDate;
+    const start = new Date(date);
     start.setDate(today.getDate() - today.getDay());
 
     const fragment = document.createDocumentFragment();
@@ -113,7 +124,7 @@ class CalendarView extends HTMLElement {
 
   RenderDayView() {
     const fragment = document.createDocumentFragment();
-    fragment.appendChild(this.RenderDayCard(new Date(), false));
+    fragment.appendChild(this.RenderDayCard(this.currentDate, false));
     return fragment;
   }
 
@@ -127,6 +138,8 @@ class CalendarView extends HTMLElement {
     }
 
     card.setAttribute("date", date.getDate());
+    card.setAttribute("month", date.getMonth());
+    card.setAttribute("year", date.getFullYear());
 
     if (dim) {
       card.setAttribute("dim", "");
