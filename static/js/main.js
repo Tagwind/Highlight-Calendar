@@ -20,6 +20,6 @@ window.nav = function (view, btn) {
   }
 
   if (view === "settings") {
-    app.innerHTML = "<settings-view></settings-view>";
+    app.innerHTML = "<hl-settings id='settings'></hl-settings>";
   }
 };
