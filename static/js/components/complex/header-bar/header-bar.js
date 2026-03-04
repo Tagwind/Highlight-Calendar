@@ -1,3 +1,5 @@
+import { getIcon, onIconsReady } from "/static/js/icons.js";
+
 class HeaderBar extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });
@@ -27,9 +29,9 @@ class HeaderBar extends HTMLElement {
             <hl-option value="week">Week</hl-option>
             <hl-option value="day">Day</hl-option>
           </hl-drop-down>
-          <button class="nav-left">◀</button>
+          <button class="nav-left"></button>
           <div class="current-label"></div>
-          <button class="nav-right">▶</button>
+          <button class="nav-right"></button>
           <div class="calendar-avatar"></div>
         </div>
     </div>
@@ -68,7 +70,18 @@ class HeaderBar extends HTMLElement {
       );
     });
 
+    onIconsReady(() => this.loadIcons());
+
     this.updateLabel();
+  }
+
+  loadIcons() {
+    this.shadowRoot
+      .querySelector(".nav-left")
+      .appendChild(getIcon("chevron-left"));
+    this.shadowRoot
+      .querySelector(".nav-right")
+      .appendChild(getIcon("chevron-right"));
   }
 
   navigate(direction) {

@@ -1,3 +1,5 @@
+import { preloadIcons } from "./icons.js";
+
 window.nav = function (view, btn) {
   const app = document.getElementById("view-content-id");
 
@@ -23,3 +25,8 @@ window.nav = function (view, btn) {
     app.innerHTML = "<hl-settings id='settings'></hl-settings>";
   }
 };
+
+await preloadIcons({
+  "chevron-left": "/static/icons/chevron-left.svg",
+  "chevron-right": "/static/icons/chevron-right.svg",
+});
