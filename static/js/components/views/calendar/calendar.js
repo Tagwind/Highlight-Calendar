@@ -109,7 +109,7 @@ class CalendarView extends HTMLElement {
   RenderWeekView() {
     const date = this.currentDate;
     const start = new Date(date);
-    start.setDate(today.getDate() - today.getDay());
+    start.setDate(date.getDate() - date.getDay());
 
     const fragment = document.createDocumentFragment();
 
