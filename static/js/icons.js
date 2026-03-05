@@ -1,9 +1,6 @@
 /*
     This file handles loading all the icons and makes them abvailable to all other components.
 */
-
-// icons.js
-
 const IconCache = {};
 let iconsReady = false;
 const readyCallbacks = [];

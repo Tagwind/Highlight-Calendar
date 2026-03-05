@@ -27,12 +27,28 @@ class CalendarView extends HTMLElement {
 
     document.addEventListener("date-change", (e) => {
       this.currentDate = e.detail.date;
-      this.viewMode = e.detail.view;
+      this.currentView = e.detail.view;
       this.Render();
     });
 
     document.addEventListener("calendarTypeChanged", (e) => {
       this.currentView = e.detail.value;
+      this.Render();
+    });
+
+    document.addEventListener("dateLabelChanged", (e) => {
+      const { mode, date, weekStart } = e.detail;
+
+      this.currentView = mode;
+
+      // For week mode, navigate to the week's start date so RenderWeekView
+      // calculates the correct 7-day window
+      if (mode === "week" && weekStart) {
+        this.currentDate = new Date(weekStart + "T00:00:00");
+      } else {
+        this.currentDate = new Date(date);
+      }
+
       this.Render();
     });
 
