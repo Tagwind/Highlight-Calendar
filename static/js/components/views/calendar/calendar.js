@@ -33,6 +33,7 @@ class CalendarView extends HTMLElement {
 
     document.addEventListener("calendarTypeChanged", (e) => {
       this.currentView = e.detail.value;
+      this.currentDate = e.detail.date ? new Date(e.detail.date) : new Date();
       this.Render();
     });
 

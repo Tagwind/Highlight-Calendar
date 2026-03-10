@@ -59,22 +59,39 @@ class HeaderBar extends HTMLElement {
     this.dateLabel = this.shadowRoot.querySelector("hl-date-label");
 
     this.calendarTypeDropDown.setValue("month");
+
     this.viewMode = this.calendarTypeDropDown.getValue(); // month | week | day
+
     this.calendarTypeDropDown.addEventListener("change", (e) => {
       this.viewMode = e.detail.value;
+
+      const today = new Date();
+      const isCurrentMonth =
+        this.currentDate.getFullYear() === today.getFullYear() &&
+        this.currentDate.getMonth() === today.getMonth();
+
+      const normalized = isCurrentMonth
+        ? today
+        : new Date(
+            this.currentDate.getFullYear(),
+            this.currentDate.getMonth(),
+            1,
+          );
+
+      this.currentDate = normalized;
+
       this.dateLabel.setMode(this.viewMode);
       this.updateLabel();
+
       this.dispatchEvent(
         new CustomEvent("calendarTypeChanged", {
-          detail: e.detail,
+          detail: { ...e.detail, date: normalized },
           bubbles: true,
         }),
       );
     });
 
     this.dateLabel.addEventListener("change", (e) => {
-      const { mode, date, weekStart, weekEnd } = e.detail;
-
       this.dispatchEvent(
         new CustomEvent("dateLabelChanged", {
           detail: e.detail,
