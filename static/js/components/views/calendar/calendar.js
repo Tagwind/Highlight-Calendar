@@ -162,6 +162,16 @@ class CalendarView extends HTMLElement {
       card.setAttribute("dim", "");
     }
 
+    //Sets up the day to haved the circle around it to signify its the current day
+    const today = new Date();
+    if (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    ) {
+      card.setAttribute("today", "");
+    }
+
     return card;
   }
 }

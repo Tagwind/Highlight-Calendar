@@ -9,7 +9,7 @@ template.innerHTML = `
 
 class DayCard extends HTMLElement {
   static get observedAttributes() {
-    return ["date", "dim", "empty"];
+    return ["date", "dim", "empty", "today"];
   }
 
   constructor() {
@@ -30,15 +30,18 @@ class DayCard extends HTMLElement {
   render() {
     const date = this.getAttribute("date");
     const empty = this.hasAttribute("empty");
+    const today = this.hasAttribute("today");
 
     this.content.innerHTML = empty
       ? `<div class="day-header"></div>`
       : `
-        <div class="day-header">${date}</div>
-        <div class="events">
-          <slot></slot>
-        </div>
-      `;
+      <div class="day-header">
+        ${today ? `<span class="day-number">${date}</span>` : date}
+      </div>
+      <div class="events">
+        <slot></slot>
+      </div>
+    `;
   }
 }
 
