@@ -1,0 +1,27 @@
+# Docs (kept local, not tracked in git)
+README.md
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment / secrets
+.env
+*.pem
+*.key
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/tasks.json
+
+# Logs
+*.log
